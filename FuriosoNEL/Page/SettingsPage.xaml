@@ -45,6 +45,7 @@
                     <Grid Background="{ThemeResource LayerFillColorDefaultBrush}" CornerRadius="8" Padding="16">
                         <StackPanel Spacing="8">
                             <ToggleSwitch x:Name="AutoCopyIpSwitch" Toggled="AutoCopyIpSwitch_Toggled" OnContent="开" OffContent="关" Header="启动成功后自动复制连接IP"/>
+                            <ToggleSwitch x:Name="UseMixedLoginSwitch" Toggled="UseMixedLoginSwitch_Toggled" OnContent="PE" OffContent="PC" Header="4399 登录渠道"/>
                             <TextBlock Text="检测封禁后的操作" Margin="0,8,0,0"/>
                             <ComboBox x:Name="AutoDisconnectOnBanCombo" SelectionChanged="AutoDisconnectOnBanCombo_SelectionChanged" Width="220">
                                 <ComboBoxItem Tag="none" Content="无操作"/>

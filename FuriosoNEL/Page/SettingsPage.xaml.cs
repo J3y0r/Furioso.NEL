@@ -35,6 +35,7 @@ namespace FuriosoNEL.Page
             ThemeRadios.SelectedIndex = _s.ThemeMode switch { "light" => 1, "dark" => 2, _ => 0 };
             BackdropRadios.SelectedIndex = _s.Backdrop == "acrylic" ? 1 : 0;
             AutoCopyIpSwitch.IsOn = _s.AutoCopyIpOnStart;
+            UseMixedLoginSwitch.IsOn = _s.UseMixedLogin;
             DebugSwitch.IsOn = _s.Debug;
             Socks5EnableSwitch.IsOn = _s.Socks5Enabled;
             Socks5HostBox.Text = _s.Socks5Address;
@@ -71,6 +72,7 @@ namespace FuriosoNEL.Page
         }
 
         private void AutoCopyIpSwitch_Toggled(object sender, RoutedEventArgs e) { if (!_init) _s.AutoCopyIpOnStart = AutoCopyIpSwitch.IsOn; }
+        private void UseMixedLoginSwitch_Toggled(object sender, RoutedEventArgs e) { if (!_init) _s.UseMixedLogin = UseMixedLoginSwitch.IsOn; }
         private void DebugSwitch_Toggled(object sender, RoutedEventArgs e) { if (!_init) { _s.Debug = DebugSwitch.IsOn; AppState.Debug = _s.Debug; } }
         private void Socks5HostBox_TextChanged(object sender, TextChangedEventArgs e) { if (!_init) _s.Socks5Address = Socks5HostBox.Text; }
         private void Socks5PortBox_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args) { if (!_init) _s.Socks5Port = (int)Math.Clamp(sender.Value, 0, 65535); }

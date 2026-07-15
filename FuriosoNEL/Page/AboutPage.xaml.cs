@@ -30,8 +30,9 @@ namespace FuriosoNEL.Page
 
         public List<Contributor> Contributors { get; } = new List<Contributor>
         {
-            new Contributor { Name = "FandMC", Role = "Owner", ColorBrush = new SolidColorBrush(Color.FromArgb(255, 0, 120, 215)) },
-            new Contributor { Name = "FuriosoNEL Team", Role = "Developer", ColorBrush = new SolidColorBrush(Color.FromArgb(255, 40, 167, 69)) },
+            new Contributor { Name = "Jeyor", Role = "Owner", ColorBrush = new SolidColorBrush(Color.FromArgb(255, 0, 120, 215)) },
+            new Contributor { Name = "Haedus Team", Role = "Developer", ColorBrush = new SolidColorBrush(Color.FromArgb(255, 40, 167, 69)) },
+            new Contributor { Name = "OpenNEL Team", Role = "Base Developer", ColorBrush = new SolidColorBrush(Color.FromArgb(255, 40, 167, 69)) },
         };
 
         public AboutPage()

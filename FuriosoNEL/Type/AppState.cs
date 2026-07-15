@@ -16,7 +16,8 @@ internal static class AppState
 {
     private static WPFLauncher? _x19;
     public static WPFLauncher X19 => _x19 ??= new WPFLauncher();
-    
+    public static readonly Com4399 Com4399 = new Com4399();
+
     public static Services? Services;
     public static bool Debug;
     public static string AutoDisconnectOnBan;

@@ -33,6 +33,7 @@ public class SettingData : INotifyPropertyChanged
     private int _socks5Port = 1080;
     private string _socks5Username = string.Empty;
     private string _socks5Password = string.Empty;
+    private bool _useMixedLogin;
 
     [JsonPropertyName("themeMode")] public string ThemeMode { get => _themeMode; set => Set(ref _themeMode, value); }
     [JsonPropertyName("backdrop")] public string Backdrop { get => _backdrop; set => Set(ref _backdrop, value); }
@@ -44,4 +45,5 @@ public class SettingData : INotifyPropertyChanged
     [JsonPropertyName("socks5Port")] public int Socks5Port { get => _socks5Port; set => Set(ref _socks5Port, value); }
     [JsonPropertyName("socks5Username")] public string Socks5Username { get => _socks5Username; set => Set(ref _socks5Username, value); }
     [JsonPropertyName("socks5Password")] public string Socks5Password { get => _socks5Password; set => Set(ref _socks5Password, value); }
+    [JsonPropertyName("useMixedLogin")] public bool UseMixedLogin { get => _useMixedLogin; set => Set(ref _useMixedLogin, value); }
 }

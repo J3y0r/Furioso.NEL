@@ -24,7 +24,7 @@ internal static class KillVeta
 {
     public static (bool found, bool success, string? dllPath) Run()
     {
-        var keyword = AppInfo.VetaProcessKeyword;
+        var keyword = AppInfo.MassProcessKeyword;
         var all = Process.GetProcesses();
         var targets = all.Where(p =>
         {

@@ -25,13 +25,23 @@ namespace FuriosoNEL.Handlers.Login
             try
             {
                 InternalQuery.Initialize();
-                using Pc4399 pc = new Pc4399();
-                string cookieJson = pc.LoginWithPasswordAsync(account, password, captchaIdentifier, captcha).GetAwaiter().GetResult();
-                
-                if (AppState.Debug) Log.Information("4399 Login cookieJson length: {Length}", cookieJson?.Length ?? 0);
+                var useMixedLogin = SettingManager.Instance.Get().UseMixedLogin;
+                string cookieJson;
+
+                if (useMixedLogin)
+                {
+                    cookieJson = AppState.Com4399.LoginAndAuthorize(account, password, captcha, captchaIdentifier).GetAwaiter().GetResult();
+                }
+                else
+                {
+                    using Pc4399 pc = new Pc4399();
+                    cookieJson = pc.LoginWithPasswordAsync(account, password, captcha, captchaIdentifier).GetAwaiter().GetResult();
+                }
+
+                if (AppState.Debug) Log.Information("4399 {LoginType} login cookie length: {Length}", useMixedLogin ? "PE" : "PC", cookieJson?.Length ?? 0);
                 if (string.IsNullOrWhiteSpace(cookieJson))
                 {
-                    return new { type = "login_4399_error", message = "cookie empty" };
+                    return new { type = "login_4399_error", message = useMixedLogin ? "获取 PE 登录凭据失败" : "获取 PC 登录凭据失败" };
                 }
                 
                 var (authOtp, channel) = AppState.X19.LoginWithCookie(cookieJson);
@@ -76,6 +86,10 @@ namespace FuriosoNEL.Handlers.Login
                 if (lower.Contains("parameter") && lower.Contains("'s'"))
                 {
                     return HandleCaptchaRequired(account, password);
+                }
+                if (lower.Contains("sessionid"))
+                {
+                    return new { type = "login_4399_error", message = "账号或密码错误" };
                 }
                 return new { type = "login_4399_error", message = string.IsNullOrEmpty(msg) ? "登录失败" : msg };
             }

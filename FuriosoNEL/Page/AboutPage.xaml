@@ -27,7 +27,7 @@
                          <FontIcon Glyph="&#xE946;" /> <!-- Info Icon -->
                          <TextBlock Text="版权信息" Style="{StaticResource SubtitleTextBlockStyle}"/>
                     </StackPanel>
-                    <TextBlock Text="Copyright © 2025 FuriosoNEL. All Rights Reserved." Style="{StaticResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="Copyright © 2026 FuriosoNEL. All Rights Reserved." Style="{StaticResource BodyTextBlockStyle}"/>
                     <TextBlock Text="FuriosoNEL is an open source project." Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
                 </StackPanel>
             </Grid>

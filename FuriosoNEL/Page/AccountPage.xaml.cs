@@ -16,6 +16,8 @@ using FuriosoNEL.Component;
 using FuriosoNEL.Handlers.Login;
 using FuriosoNEL.Manager;
 using System.Linq;
+using System.Net.Http;
+using System.Text.RegularExpressions;
 using Serilog;
 
 namespace FuriosoNEL.Page
@@ -65,6 +67,48 @@ namespace FuriosoNEL.Page
         private async void AddAccountButton_Click(object sender, RoutedEventArgs e)
         {
             await ShowAddAccountDialogAsync();
+        }
+
+        private async void RandomLoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using var client = new HttpClient();
+                var response = await client.GetStringAsync("https://api.tinise.cn/api/4399");
+                var match = Regex.Match(response, @"账号\s*[:：]\s*(?<account>\S+)\s+密码\s*[:：]\s*(?<password>\S+)");
+                if (!match.Success)
+                {
+                    NotificationHost.ShowGlobal("随机账号接口返回格式错误", ToastLevel.Error);
+                    return;
+                }
+
+                var account = match.Groups["account"].Value;
+                var password = match.Groups["password"].Value;
+                var result = await Task.Run(() => new Login4399().Execute(account, password));
+                var type = result.GetType().GetProperty("type")?.GetValue(result) as string;
+                if (string.Equals(type, "captcha_required", StringComparison.OrdinalIgnoreCase))
+                {
+                    NotificationHost.ShowGlobal("随机账号需要验证码，请使用添加账号完成登录", ToastLevel.Warning);
+                    return;
+                }
+
+                var success = result is System.Collections.IEnumerable items && items.Cast<object>().Any(item =>
+                    string.Equals(item?.GetType().GetProperty("type")?.GetValue(item) as string, "Success_login", StringComparison.OrdinalIgnoreCase));
+                if (success)
+                {
+                    RefreshAccounts();
+                    NotificationHost.ShowGlobal("随机账号登录成功", ToastLevel.Success);
+                    return;
+                }
+
+                var message = result.GetType().GetProperty("message")?.GetValue(result) as string ?? "随机账号登录失败";
+                NotificationHost.ShowGlobal(message, ToastLevel.Error);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "随机账号登录失败");
+                NotificationHost.ShowGlobal("随机账号登录失败", ToastLevel.Error);
+            }
         }
 
         private async Task ShowAddAccountDialogAsync()
@@ -130,7 +174,7 @@ namespace FuriosoNEL.Page
                         dialog.Hide();
                     }
                 }
-                else if (type == "PC4399")
+                else if (type == "4399")
                 {
                     var result = await ProcessPc4399Async(dialogContent, dialog);
                     RefreshAccounts();

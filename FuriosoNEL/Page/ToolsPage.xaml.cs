@@ -94,7 +94,7 @@ namespace FuriosoNEL.Page
         {
             try
             {
-                Process.Start(new ProcessStartInfo { FileName = "https://fandmc.cn/", UseShellExecute = true });
+                Process.Start(new ProcessStartInfo { FileName = "https://github.com/J3y0r/Furioso.NEL/", UseShellExecute = true });
             }
             catch { }
         }
